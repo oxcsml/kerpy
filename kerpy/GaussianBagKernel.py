@@ -16,7 +16,7 @@ class GaussianBagKernel(BagKernel):
         s += "]"
         return s
     
-    def rff_generate(self,mbags,mdata=100,dim=1):
+    def rff_generate(self,mbags=20,mdata=20,dim=1):
         '''
         mbags:: number of random features for bag kernel
         mdata:: number of random features for data kernel

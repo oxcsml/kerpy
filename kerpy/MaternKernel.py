@@ -9,9 +9,9 @@ from tools.GenericTests import GenericTests
 
 
 class MaternKernel(Kernel):
-    def __init__(self, width, nu=1.5, sigma=1.0):
+    def __init__(self, width=1.0, nu=1.5, sigma=1.0):
         Kernel.__init__(self)
-        #GenericTests.check_type(width,'width',float)
+        GenericTests.check_type(width,'width',float)
         GenericTests.check_type(nu,'nu',float)
         GenericTests.check_type(sigma,'sigma',float)
         
@@ -65,10 +65,6 @@ class MaternKernel(Kernel):
             raise NotImplementedError()
     
 if __name__ == '__main__':
-    Z = np.random.randn(50,2)
-    Z2 = np.random.randn(50,2)
-    kernel = MaternKernel(1.0)
-    K = kernel.kernel(Z, Z2)
-    imshow(K, interpolation="nearest")
-    show()
+    from tools.UnitTests import UnitTests
+    UnitTests.UnitTestDefaultKernel(MaternKernel)
 

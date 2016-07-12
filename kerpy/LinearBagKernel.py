@@ -14,12 +14,13 @@ class LinearBagKernel(BagKernel):
         s += "]"
         return s
     
-    def rff_generate(self,mdata=100,dim=1):
+    def rff_generate(self,mdata=20,dim=1):
         '''
         mdata:: number of random features for data kernel
         dim:: data dimensionality
         '''
         self.data_kernel.rff_generate(mdata,dim=dim)
+        self.rff_num=mdata
     
     def rff_expand(self,bagX):
         nx=len(bagX)

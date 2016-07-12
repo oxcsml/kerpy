@@ -11,6 +11,9 @@ class UnitTests():
         kernel = which_kernel()
         kernel.show_kernel_matrix(X)
         print '...successfully visualised kernel matrix.'
+        response_y=X[:,1]**2+np.random.randn(nx)
+        kernel.ridge_regress(X,response_y)
+        print '...successfully ran ridge regression.'
         
     @staticmethod
     def UnitTestBagKernel(which_bag_kernel):
@@ -33,10 +36,10 @@ class UnitTests():
             bag_kernel = which_bag_kernel(data_kernel)
             bag_kernel.show_kernel_matrix(baglistx + baglisty)
             print '...successfully visualised kernel matrix on bags.'
-            bag_kernel.rff_generate(12,10,dim=3)
+            bag_kernel.rff_generate(dim=dim)
             bagmmd = bag_kernel.estimateMMD_rff(baglistx, baglisty)
-            print '...successfully computed mmd on bags; value: ', bagmmd
+            print '...successfully computed rff mmd on bags; value: ', bagmmd
             response_y=np.random.randn(num_bagsX)
             bag_kernel.ridge_regress_rff(baglistx,response_y)
-            print '...successfully ran ridge regression on bags.'
+            print '...successfully ran rff ridge regression on bags.'
             print 'unit test ran for ', bag_kernel.__str__()
