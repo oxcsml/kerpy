@@ -1,24 +1,17 @@
 import numpy as np
-from kerpy.MaternKernel import MaternKernel
 from kerpy.GaussianKernel import GaussianKernel
-from kerpy.BrownianKernel import BrownianKernel
 
 class UnitTests():
     
     @staticmethod
-    def UnitTestSVC():
-        kernel = BrownianKernel(1.0)
-        X=np.random.randn(300,3)
-        y=(X[:,0]*X[:,1]>0).astype(int)
-        Xtst=np.random.randn(200,3)
-        ytst=(Xtst[:,0]*Xtst[:,1]>0).astype(int)
-        lmbda,kerpar=kernel.xvalidate(X, y, method='svc',visualise=True,verbose=True,
-                                      lmbda_grid=(np.arange(20,200,20))/100.0,
-                                      width_grid=(np.arange(5,200,5)/100.0))
-        kernel.set_kerpar(kerpar)
-        _,_,err=kernel.svc(X,y,Xtst=Xtst,ytst=ytst,lmbda=lmbda)
-        print err
-    
+    def UnitTestDefaultKernel(which_kernel):
+        dim = 5
+        nx = 20
+        X=np.random.randn(nx,dim)
+        kernel = which_kernel()
+        kernel.show_kernel_matrix(X)
+        print '...successfully visualised kernel matrix.'
+        
     @staticmethod
     def UnitTestBagKernel(which_bag_kernel):
             num_bagsX = 20
@@ -39,13 +32,11 @@ class UnitTests():
             data_kernel = GaussianKernel(1.0)
             bag_kernel = which_bag_kernel(data_kernel)
             bag_kernel.show_kernel_matrix(baglistx + baglisty)
+            print '...successfully visualised kernel matrix on bags.'
             bag_kernel.rff_generate(12,10,dim=3)
             bagmmd = bag_kernel.estimateMMD_rff(baglistx, baglisty)
-            print '...successfully computed mmd on bags: ', bagmmd
+            print '...successfully computed mmd on bags; value: ', bagmmd
             response_y=np.random.randn(num_bagsX)
-            b=bag_kernel.xvalidate(baglistx,response_y,'ridge_regress_rff')
-            print b
+            bag_kernel.ridge_regress_rff(baglistx,response_y)
             print '...successfully ran ridge regression on bags.'
             print 'unit test ran for ', bag_kernel.__str__()
-
-UnitTests.UnitTestSVC()

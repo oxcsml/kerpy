@@ -46,9 +46,5 @@ class BrownianKernel(Kernel):
         raise NotImplementedError()
     
 if __name__ == '__main__':
-    Z = np.random.randn(50,2)
-    Z2 = np.random.randn(50,2)
-    kernel = BrownianKernel()
-    K = kernel.kernel(Z, Z2)
-    imshow(K, interpolation="nearest")
-    show()
+    from tools.UnitTests import UnitTests
+    UnitTests.UnitTestDefaultKernel(BrownianKernel)
