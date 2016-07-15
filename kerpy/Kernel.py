@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import warnings
 from tools.GenericTests import GenericTests
-from sklearn import svm
+
 
 
 
@@ -99,6 +99,7 @@ class Kernel(object):
     
     @abstractmethod
     def svc(self,X,y,lmbda=1.0,Xtst=None,ytst=None):
+        from sklearn import svm
         svc=svm.SVC(kernel=self.kernel,C=lmbda)
         svc.fit(X,y)
         if Xtst is None:
