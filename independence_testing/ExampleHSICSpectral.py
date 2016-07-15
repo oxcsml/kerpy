@@ -1,4 +1,10 @@
-import os 
+'''
+    adding relevant folder to your pythonpath
+    '''
+import os, sys
+BASE_DIR = os.path.join( os.path.dirname( __file__ ), '..' )
+sys.path.append(BASE_DIR)
+
 from kerpy.GaussianKernel import GaussianKernel
 from HSICTestObject import HSICTestObject
 from HSICSpectralTestObject import HSICSpectralTestObject
