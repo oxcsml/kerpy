@@ -1,3 +1,11 @@
+'''
+adding relevant folder to your pythonpath
+'''
+import os, sys
+BASE_DIR = os.path.join( os.path.dirname( __file__ ), '..' )
+sys.path.append(BASE_DIR)
+
+
 from kerpy.GaussianKernel import GaussianKernel
 from SimDataGen import SimDataGen
 from HSICTestObject import HSICTestObject
@@ -13,8 +21,9 @@ First, we need to specify the kernels for X and Y. Here, we use Gaussian Kernel 
 we will use a temporary setup for the bandwidth.  
 '''
 
-data_x, data_y = SimDataGen.SimpleLn(200, 4)
-num_samples = shape(data_x)[0]
+num_samples = 200
+dim = 4
+data_x, data_y = SimDataGen.SimpleLn(num_samples, dim)
 kernelX=GaussianKernel(1.)
 kernelY=GaussianKernel(1.)
 
@@ -26,9 +35,10 @@ myspectralobject = HSICSpectralTestObject(num_samples, data_generator, kernelX, 
                  num_nullsims=1000, unbiased=False)
 pvalue,_ = myspectralobject.compute_pvalue(data_x, data_y)
 
+print pvalue
 # Or, if we would like to use HSIC Block Test:
 myblockobject = HSICBlockTestObject(num_samples, data_generator, kernelX, kernelY,
                  kernel_width_x=True,kernel_width_y=True,
                  blocksize=20, streaming=False, nullvarmethod='permutation', freeze_data=False)
-
 pvalue,_ = myblockobject.compute_pvalue(data_x, data_y)
+print pvalue
