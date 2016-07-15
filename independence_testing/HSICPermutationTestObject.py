@@ -20,12 +20,20 @@ class HSICPermutationTestObject(HSICTestObject):
         self.unbiased = unbiased
     
      
-    def compute_pvalue(self):
-        start = time.clock()
-        if not self.streaming and not self.freeze_data:
-            self.generate_data()
-        data_generating_time = time.clock()-start
+    def compute_pvalue(self,data_x=None,data_y=None):
+        if data_x is None and data_y is None:
+            if not self.streaming and not self.freeze_data:
+                start = time.clock()
+                self.generate_data()
+                data_generating_time = time.clock()-start
+                data_x = self.data_x
+                data_y = self.data_y
+            else:
+                data_generating_time = 0.
+        else:
+            data_generating_time = 0.
         print 'Permutation data generating time passed: ', data_generating_time
-        hsic_statistic, null_samples, _, _, _, _, _ = self.HSICmethod(unbiased=self.unbiased,num_shuffles=self.num_shuffles)
+        hsic_statistic, null_samples, _, _, _, _, _ = self.HSICmethod(unbiased=self.unbiased,num_shuffles=self.num_shuffles,
+                                                                      data_x = data_x, data_y = data_y)
         pvalue = ( sum( null_samples > hsic_statistic ) ) / float( self.num_shuffles )
         return pvalue, data_generating_time

@@ -17,19 +17,24 @@ class HSICBlockTestObject(HSICTestObject):
         #self.blocksizeY = blocksizeY
         self.nullvarmethod = nullvarmethod
         
-    def compute_pvalue(self):
-        if not self.streaming and not self.freeze_data:
-            start = time.clock()
-            self.generate_data()
-            data_generating_time = time.clock()-start
+    def compute_pvalue(self,data_x=None,data_y=None):
+        if data_x is None and data_y is None:
+            if not self.streaming and not self.freeze_data:
+                start = time.clock()
+                self.generate_data()
+                data_generating_time = time.clock()-start
+                data_x = self.data_x
+                data_y = self.data_y
+            else:
+                data_generating_time = 0.
         else: 
             data_generating_time = 0.
         #print 'Total block data generating time passed: ', data_generating_time
         if self.kernel_width_x:
-            sigmax = self.kernelX.get_sigma_median_heuristic(self.data_x)
+            sigmax = self.kernelX.get_sigma_median_heuristic(data_x)
             self.kernelX.set_width(float(sigmax))
         if self.kernel_width_y:
-            sigmay = self.kernelY.get_sigma_median_heuristic(self.data_y)
+            sigmay = self.kernelY.get_sigma_median_heuristic(data_y)
             self.kernelY.set_width(float(sigmay))
         num_blocks = ( self.num_samples ) / self.blocksize
         block_statistics = zeros(num_blocks)
@@ -38,19 +43,19 @@ class HSICBlockTestObject(HSICTestObject):
         null_vary = zeros(num_blocks)
         for bb in range(num_blocks):
             if self.streaming:
-                data_x, data_y = self.data_generator(self.blocksize, self.blocksize)
+                data_xb, data_yb = self.data_generator(self.blocksize, self.blocksize)
             else:
-                data_x = self.data_x[(bb*self.blocksize):((bb+1)*self.blocksize)]
-                data_y = self.data_y[(bb*self.blocksize):((bb+1)*self.blocksize)]
+                data_xb = data_x[(bb*self.blocksize):((bb+1)*self.blocksize)]
+                data_yb = data_y[(bb*self.blocksize):((bb+1)*self.blocksize)]
             if self.nullvarmethod == 'permutation':
                 block_statistics[bb], null_samples[bb], _, _, _, _, _ = \
-                    self.HSICmethod(data_x=data_x, data_y=data_y, unbiased=True, num_shuffles=1, estimate_nullvar=False,isBlockHSIC=True)
+                    self.HSICmethod(data_x=data_xb, data_y=data_yb, unbiased=True, num_shuffles=1, estimate_nullvar=False,isBlockHSIC=True)
             elif self.nullvarmethod == 'direct':
                 block_statistics[bb], _, null_varx[bb], null_vary[bb], _, _, _ = \
-                    self.HSICmethod(data_x=data_x, data_y=data_y, unbiased=True, num_shuffles=0, estimate_nullvar=True,isBlockHSIC=True)
+                    self.HSICmethod(data_x=data_xb, data_y=data_yb, unbiased=True, num_shuffles=0, estimate_nullvar=True,isBlockHSIC=True)
             elif self.nullvarmethod == 'across':
                 block_statistics[bb], _, _, _, _, _, _ = \
-                    self.HSICmethod(data_x=data_x, data_y=data_y, unbiased=True, num_shuffles=0, estimate_nullvar=False,isBlockHSIC=True)
+                    self.HSICmethod(data_x=data_xb, data_y=data_yb, unbiased=True, num_shuffles=0, estimate_nullvar=False,isBlockHSIC=True)
             else:
                 raise NotImplementedError()
         BTest_Statistic = sum(block_statistics) / float(num_blocks)

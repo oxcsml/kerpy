@@ -9,7 +9,8 @@ import time
 
 class HSICSpectralTestObject(HSICTestObject):
 
-    def __init__(self, num_samples, data_generator, kernelX, kernelY, kernel_width_x=False,kernel_width_y=False,
+    def __init__(self, num_samples, data_generator, 
+                 kernelX, kernelY, kernel_width_x=False,kernel_width_y=False,
                  rff=False,num_rfx=None,num_rfy=None,induce_set=False, num_inducex = None, num_inducey = None,
                  num_nullsims=1000, unbiased=True):
         HSICTestObject.__init__(self, num_samples, data_generator, kernelX, kernelY, kernel_width_x=kernel_width_x,
@@ -31,13 +32,20 @@ class HSICSpectralTestObject(HSICTestObject):
             null_samples[jj]=np.dot(lambdax.T,np.dot(zz,lambday))
         return null_samples
     
-    def compute_pvalue(self):
-        start = time.clock()
-        if not self.streaming and not self.freeze_data:
-            self.generate_data()
-        data_generating_time = time.clock()-start
+    def compute_pvalue(self,data_x=None,data_y=None):
+        if data_x is None and data_y is None:
+            if not self.streaming and not self.freeze_data:
+                start = time.clock()
+                self.generate_data()
+                data_generating_time = time.clock()-start
+                data_x = self.data_x
+                data_y = self.data_y
+            else:
+                data_generating_time = 0.
+        else:
+            data_generating_time = 0.
         print 'data generating time passed: ', data_generating_time
-        hsic_statistic, _, _, _, Mx, My, _ = self.HSICmethod(unbiased=self.unbiased)
+        hsic_statistic, _, _, _, Mx, My, _ = self.HSICmethod(unbiased=self.unbiased,data_x = data_x, data_y = data_y)
         null_samples = self.get_null_samples_with_spectral_approach(Mx, My)
         pvalue = ( sum( null_samples > self.num_samples*hsic_statistic ) ) / float( self.num_nullsims )
         return pvalue, data_generating_time
