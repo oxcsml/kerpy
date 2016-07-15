@@ -127,7 +127,6 @@ class HSICTestObject(TestObject):
             test_statistic = HSICTestObject.HSIC_U_statistic(Kx,Ky)
         else:
             test_statistic = HSICTestObject.HSIC_V_statistic(Kx,Ky)
-        print 'test statistic: ', test_statistic
         null_samples=zeros(num_shuffles)
         for jj in range(num_shuffles):
             pp = permutation(ny)
@@ -163,7 +162,6 @@ class HSICTestObject(TestObject):
             test_statistic = HSICTestObject.HSIC_U_statistic_rff(phix,phiy)
         else:
             test_statistic = HSICTestObject.HSIC_V_statistic_rff(phix,phiy)
-        print 'test statistic: ', test_statistic
         null_samples=zeros(num_shuffles)
         for jj in range(num_shuffles):
             pp = permutation(ny)

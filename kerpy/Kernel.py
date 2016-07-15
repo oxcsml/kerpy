@@ -35,10 +35,10 @@ class Kernel(object):
     def set_width(self, width):
         if hasattr(self, 'width'):
             warnmsg="\nChanging kernel width from "+str(self.width)+" to "+str(width)
-            warnings.warn(warnmsg)
+            #warnings.warn(warnmsg) ---need to add verbose argument to show these warning messages
             if self.rff_freq is not None:
                 warnmsg="\nrff frequencies found. rescaling to width " +str(width)
-                warnings.warn(warnmsg)
+                #warnings.warn(warnmsg)
                 self.rff_freq=self.unit_rff_freq/width
             self.width=width
         else:

@@ -7,7 +7,7 @@ from tools.GenericTests import GenericTests
 import numpy as np
 
 class GaussianKernel(Kernel):
-    def __init__(self, sigma, is_sparse = False):
+    def __init__(self, sigma=1.0, is_sparse = False):
         Kernel.__init__(self)
         GenericTests.check_type(sigma,'sigma',float)
         self.width = sigma

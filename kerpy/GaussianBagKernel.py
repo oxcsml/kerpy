@@ -5,7 +5,7 @@ from numpy.random.mtrand import randn
 import numpy as np
 
 class GaussianBagKernel(BagKernel):
-    def __init__(self,data_kernel,sigma=0.5):
+    def __init__(self,data_kernel,sigma=1.0):
         BagKernel.__init__(self,data_kernel)
         self.width=sigma
         

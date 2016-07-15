@@ -21,24 +21,31 @@ First, we need to specify the kernels for X and Y. Here, we use Gaussian Kernel 
 we will use a temporary setup for the bandwidth.  
 '''
 
-num_samples = 200
-dim = 4
-data_x, data_y = SimDataGen.SimpleLn(num_samples, dim)
-kernelX=GaussianKernel(1.)
-kernelY=GaussianKernel(1.)
+num_samples = 10000
+dim = 20
+data_x, data_y = SimDataGen.LargeScale(num_samples, dim)
+
+'''
+use Gaussian kernels -- default value of the width parameter is 1.0
+the widths can be either kept fixed or set to a median heuristic based on the data when running a test
+'''
+kernelX=GaussianKernel()
+kernelY=GaussianKernel()
 
 data_generator = None
 
-# We use the exact HSIC Spectral Test:
-myspectralobject = HSICSpectralTestObject(num_samples, data_generator, kernelX, kernelY, kernel_width_x=True,kernel_width_y=True,
-                 rff=False,num_rfx=None,num_rfy=None,induce_set=False, num_inducex = None, num_inducey = None,
-                 num_nullsims=1000, unbiased=False)
+#HSIC Spectral Test using random Fourier features, as specified by rff = True
+myspectralobject = HSICSpectralTestObject(num_samples, data_generator, kernelX, kernelY, 
+                kernel_width_x=True,kernel_width_y=True,
+                 rff=True, num_rfx=20, num_rfy=20, num_nullsims=1000)
 pvalue,_ = myspectralobject.compute_pvalue(data_x, data_y)
 
-print pvalue
+print "Spectral test p-value:", pvalue
+
 # Or, if we would like to use HSIC Block Test:
 myblockobject = HSICBlockTestObject(num_samples, data_generator, kernelX, kernelY,
-                 kernel_width_x=True,kernel_width_y=True,
-                 blocksize=20, streaming=False, nullvarmethod='permutation', freeze_data=False)
+                 kernel_width_x=True, kernel_width_y=True,
+                 blocksize=50, nullvarmethod='permutation')
 pvalue,_ = myblockobject.compute_pvalue(data_x, data_y)
-print pvalue
+
+print "Block test p-value:", pvalue

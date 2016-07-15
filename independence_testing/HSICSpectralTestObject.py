@@ -12,7 +12,7 @@ class HSICSpectralTestObject(HSICTestObject):
     def __init__(self, num_samples, data_generator, 
                  kernelX, kernelY, kernel_width_x=False,kernel_width_y=False,
                  rff=False,num_rfx=None,num_rfy=None,induce_set=False, num_inducex = None, num_inducey = None,
-                 num_nullsims=1000, unbiased=True):
+                 num_nullsims=1000, unbiased=False):
         HSICTestObject.__init__(self, num_samples, data_generator, kernelX, kernelY, kernel_width_x=kernel_width_x,
                                 kernel_width_y=kernel_width_y, num_rfx=num_rfx, num_rfy=num_rfy, rff=rff,
                                 induce_set=induce_set, num_inducex = num_inducex, num_inducey = num_inducey)
