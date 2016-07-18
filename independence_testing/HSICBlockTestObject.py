@@ -5,12 +5,12 @@ from scipy.stats import norm
 import time
 
 class HSICBlockTestObject(HSICTestObject):
-    def __init__(self,num_samples, data_generator, kernelX, kernelY,
-                 kernel_width_x=False,kernel_width_y=False,
+    def __init__(self,num_samples, data_generator=None, kernelX=None, kernelY=None,
+                 kernelX_use_median=False,kernelY_use_median=False,
                   rff=False, num_rfx=None, num_rfy=None,
                  blocksize=50, streaming=False, nullvarmethod='permutation', freeze_data=False):
-        HSICTestObject.__init__(self, num_samples, data_generator, kernelX, kernelY, 
-                                kernel_width_x=kernel_width_x,kernel_width_y=kernel_width_y,
+        HSICTestObject.__init__(self, num_samples, data_generator=data_generator, kernelX=kernelX, kernelY=kernelY, 
+                                kernelX_use_median=kernelX_use_median,kernelY_use_median=kernelY_use_median,
                                  rff=rff, streaming=streaming, num_rfx=num_rfx, num_rfy=num_rfy,
                                 freeze_data=freeze_data)
         self.blocksize = blocksize
@@ -30,10 +30,10 @@ class HSICBlockTestObject(HSICTestObject):
         else: 
             data_generating_time = 0.
         #print 'Total block data generating time passed: ', data_generating_time
-        if self.kernel_width_x:
+        if self.kernelX_use_median:
             sigmax = self.kernelX.get_sigma_median_heuristic(data_x)
             self.kernelX.set_width(float(sigmax))
-        if self.kernel_width_y:
+        if self.kernelY_use_median:
             sigmay = self.kernelY.get_sigma_median_heuristic(data_y)
             self.kernelY.set_width(float(sigmay))
         num_blocks = ( self.num_samples ) / self.blocksize

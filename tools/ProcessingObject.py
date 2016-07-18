@@ -33,10 +33,10 @@ class ProcessingObject(object):
         parser.add_argument("--dimX", type=int,\
                             help="dimensionality of the data X",
                             default=3)
-        parser.add_argument("--kernel_width_x", action="store_true",\
+        parser.add_argument("--kernelX_use_median", action="store_true",\
                             help="should median heuristic be used for X?",
                             default=False)
-        parser.add_argument("--kernel_width_y", action="store_true",\
+        parser.add_argument("--kernelY_use_median", action="store_true",\
                             help="should median heuristic be used for Y?",
                             default=False)
         #parser.add_argument("--dimY", type=int,\

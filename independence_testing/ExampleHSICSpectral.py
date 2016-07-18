@@ -26,8 +26,8 @@ args = ProcessingObject.parse_arguments()
 num_samples=args.num_samples
 hypothesis=args.hypothesis
 dimX = args.dimX
-kernel_width_x = args.kernel_width_x
-kernel_width_y = args.kernel_width_y
+kernelX_use_median = args.kernelX_use_median
+kernelY_use_median = args.kernelY_use_median
 rff=args.rff
 num_rfx = args.num_rfx
 num_rfy = args.num_rfy
@@ -49,7 +49,7 @@ else:
 
 
 test_object=HSICSpectralTestObject(num_samples, data_generator, kernelX, kernelY, 
-                                   kernel_width_x=kernel_width_x,kernel_width_y=kernel_width_y, 
+                                   kernelX_use_median=kernelX_use_median,kernelY_use_median=kernelY_use_median, 
                                    rff = rff, num_rfx=num_rfx,num_rfy=num_rfy, unbiased=False,
                                    induce_set = induce_set, num_inducex = num_inducex, num_inducey = num_inducey)
 

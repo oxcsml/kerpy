@@ -9,11 +9,11 @@ import time
 
 class HSICPermutationTestObject(HSICTestObject):
 
-    def __init__(self, num_samples, data_generator, kernelX, kernelY, kernel_width_x=False,
-                 kernel_width_y=False, num_rfx=None, num_rfy=None, rff=False,
+    def __init__(self, num_samples, data_generator=None, kernelX=None, kernelY=None, kernelX_use_median=False,
+                 kernelY_use_median=False, num_rfx=None, num_rfy=None, rff=False,
                  induce_set=False, num_inducex = None, num_inducey = None, num_shuffles=1000, unbiased=True):
-        HSICTestObject.__init__(self, num_samples, data_generator, kernelX, kernelY, 
-                                kernel_width_x=kernel_width_x,kernel_width_y=kernel_width_y,
+        HSICTestObject.__init__(self, num_samples, data_generator=data_generator, kernelX=kernelX, kernelY=kernelY, 
+                                kernelX_use_median=kernelX_use_median,kernelY_use_median=kernelY_use_median,
                                 num_rfx=num_rfx, num_rfy=num_rfy, rff=rff,induce_set=induce_set,
                                  num_inducex = num_inducex, num_inducey = num_inducey)
         self.num_shuffles = num_shuffles

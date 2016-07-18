@@ -4,6 +4,7 @@ from scipy.stats import pearsonr
 import time
 from numpy.random import permutation
 
+
 class CorrTestObject(TestObject):
     def __init__(self, num_samples, data_generator, streaming=False, freeze_data=False,num_shuffles=1000):
         TestObject.__init__(self,self.__class__.__name__,streaming=streaming, freeze_data=freeze_data)

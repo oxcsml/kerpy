@@ -12,7 +12,7 @@ from TestExperiment import TestExperiment
 from SimDataGen import SimDataGen
 from tools.ProcessingObject import ProcessingObject
 
-#example use: python ExampleHSICBlock.py 500 --dimX 3 --kernel_width_x --kernel_width_y --blocksize 10
+#example use: python ExampleHSICBlock.py 500 --dimX 3 --kernelX_use_median --kernelY_use_median --blocksize 10
 
 data_generating_function = SimDataGen.LargeScale
 data_generating_function_null = SimDataGen.turn_into_null(SimDataGen.LargeScale)
@@ -22,8 +22,8 @@ args = ProcessingObject.parse_arguments()
 num_samples=args.num_samples
 hypothesis=args.hypothesis
 dimX = args.dimX
-kernel_width_x = args.kernel_width_x
-kernel_width_y = args.kernel_width_y
+kernelX_use_median = args.kernelX_use_median
+kernelY_use_median = args.kernelY_use_median
 blocksize = args.blocksize 
 #currently, we are using the same blocksize for both X and Y
 
@@ -40,7 +40,7 @@ else:
 
 
 test_object=HSICBlockTestObject(num_samples, data_generator, kernelX, kernelY, 
-                                   kernel_width_x=kernel_width_x,kernel_width_y=kernel_width_y,
+                                   kernelX_use_median=kernelX_use_median,kernelY_use_median=kernelY_use_median,
                                    nullvarmethod='permutation',
                                    blocksize=blocksize)
 

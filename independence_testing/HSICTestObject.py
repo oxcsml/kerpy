@@ -11,7 +11,7 @@ from numpy.linalg import inv,eigh,svd
 
 
 class HSICTestObject(TestObject):
-    def __init__(self, num_samples, data_generator, kernelX, kernelY, kernel_width_x=False,kernel_width_y=False,
+    def __init__(self, num_samples, data_generator=None, kernelX=None, kernelY=None, kernelX_use_median=False,kernelY_use_median=False,
                   rff=False, num_rfx=None, num_rfy=None, induce_set=False, num_inducex = None, num_inducey = None,
                   streaming=False, freeze_data=False):
         TestObject.__init__(self,self.__class__.__name__,streaming=streaming, freeze_data=freeze_data)
@@ -19,8 +19,8 @@ class HSICTestObject(TestObject):
         self.data_generator = data_generator
         self.kernelX = kernelX
         self.kernelY = kernelY
-        self.kernel_width_x = kernel_width_x #indicate if median heuristic for Gaussian Kernel should be used
-        self.kernel_width_y = kernel_width_y
+        self.kernelX_use_median = kernelX_use_median #indicate if median heuristic for Gaussian Kernel should be used
+        self.kernelY_use_median = kernelY_use_median
         self.rff = rff
         self.num_rfx = num_rfx
         self.num_rfy = num_rfy
@@ -194,10 +194,10 @@ class HSICTestObject(TestObject):
     
     @abstractmethod
     def compute_kernel_matrix_on_data(self,data_x,data_y):
-        if self.kernel_width_x:
+        if self.kernelX_use_median:
             sigmax = self.kernelX.get_sigma_median_heuristic(data_x)
             self.kernelX.set_width(float(sigmax))
-        if self.kernel_width_y:
+        if self.kernelY_use_median:
             sigmay = self.kernelY.get_sigma_median_heuristic(data_y)
             self.kernelY.set_width(float(sigmay))
         Kx=self.kernelX.kernel(data_x)
@@ -224,10 +224,10 @@ class HSICTestObject(TestObject):
     def compute_rff_on_data(self,data_x,data_y):
         self.kernelX.rff_generate(self.num_rfx,dim=shape(data_x)[1])
         self.kernelY.rff_generate(self.num_rfy,dim=shape(data_y)[1])
-        if self.kernel_width_x:
+        if self.kernelX_use_median:
             sigmax = self.kernelX.get_sigma_median_heuristic(data_x)
             self.kernelX.set_width(float(sigmax))
-        if self.kernel_width_y:
+        if self.kernelY_use_median:
             sigmay = self.kernelY.get_sigma_median_heuristic(data_y)
             self.kernelY.set_width(float(sigmay))
         phix = self.kernelX.rff_expand(data_x)
@@ -245,10 +245,10 @@ class HSICTestObject(TestObject):
         self.data_z[[range(self.num_inducex)],:]
         self.data_w[[range(self.num_inducey)],:]
         print 'Induce Set'
-        if self.kernel_width_x:
+        if self.kernelX_use_median:
             sigmax = self.kernelX.get_sigma_median_heuristic(data_x)
             self.kernelX.set_width(float(sigmax))
-        if self.kernel_width_y:
+        if self.kernelY_use_median:
             sigmay = self.kernelY.get_sigma_median_heuristic(data_y)
             self.kernelY.set_width(float(sigmay))
         Kxz = self.kernelX.kernel(data_x,self.data_z)
