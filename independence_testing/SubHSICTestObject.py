@@ -27,7 +27,7 @@ class SubHSICTestObject(HSICTestObject):
                 data_generating_time = 0.
         else:
             data_generating_time = 0.
-        print 'data generating time passed: ', data_generating_time
+        #print 'data generating time passed: ', data_generating_time
         SubHSIC_statistic = self.SubHSIC_statistic(unbiased=self.unbiased,data_x=data_x, data_y = data_y)
         null_samples=zeros(self.num_shuffles)
         for jj in range(self.num_shuffles):

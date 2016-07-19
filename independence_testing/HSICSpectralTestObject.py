@@ -45,7 +45,7 @@ class HSICSpectralTestObject(HSICTestObject):
                 data_generating_time = 0.
         else:
             data_generating_time = 0.
-        print 'data generating time passed: ', data_generating_time
+        #print 'data generating time passed: ', data_generating_time
         hsic_statistic, _, _, _, Mx, My, _ = self.HSICmethod(unbiased=self.unbiased,data_x = data_x, data_y = data_y)
         null_samples = self.get_null_samples_with_spectral_approach(Mx, My)
         pvalue = ( sum( null_samples > self.num_samples*hsic_statistic ) ) / float( self.num_nullsims )
