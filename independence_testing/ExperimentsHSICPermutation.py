@@ -12,7 +12,7 @@ from SimDataGen import SimDataGen
 from tools.ProcessingObject import ProcessingObject
 from HSICPermutationTestObject import HSICPermutationTestObject
 
-#example use: python ExampleHSICPermutation.py 500 --dimX 3 --hypothesis null --rff --num_rfx 50 --num_rfy 50 
+#example use: python ExperimentsHSICPermutation.py 500 --dimX 3 --hypothesis null --rff --num_rfx 50 --num_rfy 50 
 
 data_generating_function = SimDataGen.VaryDimension
 data_generating_function_null = SimDataGen.turn_into_null(SimDataGen.VaryDimension)

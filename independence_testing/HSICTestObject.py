@@ -262,7 +262,9 @@ class HSICTestObject(TestObject):
         return phix, phiy
     
     
-    
+    def compute_pvalue(self,data_x=None,data_y=None):
+        pvalue,_=self.compute_pvalue_with_time_tracking(data_x,data_y)
+        return pvalue
     
     
     

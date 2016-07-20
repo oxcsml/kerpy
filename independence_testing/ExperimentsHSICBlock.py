@@ -12,7 +12,7 @@ from TestExperiment import TestExperiment
 from SimDataGen import SimDataGen
 from tools.ProcessingObject import ProcessingObject
 
-#example use: python ExampleHSICBlock.py 500 --dimX 3 --kernelX_use_median --kernelY_use_median --blocksize 10
+#example use: python ExperimentsHSICBlock.py 500 --dimX 3 --kernelX_use_median --kernelY_use_median --blocksize 10
 
 data_generating_function = SimDataGen.LargeScale
 data_generating_function_null = SimDataGen.turn_into_null(SimDataGen.LargeScale)

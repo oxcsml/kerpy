@@ -12,7 +12,7 @@ from TestExperiment import TestExperiment
 from SimDataGen import SimDataGen
 from tools.ProcessingObject import ProcessingObject
 
-#example usage: python ExampleHSICSpectral.py 500 --dimX 4 --hypothesis null --rff --num_rfx 50 --num_rfy 50 
+#example usage: python ExperimentsHSICSpectral.py 500 --dimX 4 --hypothesis null --rff --num_rfx 50 --num_rfy 50 
 # the above says that 500 samples; null hypothesis; rff True; 50 random Fourier features for X and Y.
 
 

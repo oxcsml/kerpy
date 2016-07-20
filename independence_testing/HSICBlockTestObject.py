@@ -17,7 +17,7 @@ class HSICBlockTestObject(HSICTestObject):
         #self.blocksizeY = blocksizeY
         self.nullvarmethod = nullvarmethod
         
-    def compute_pvalue(self,data_x=None,data_y=None):
+    def compute_pvalue_with_time_tracking(self,data_x=None,data_y=None):
         if data_x is None and data_y is None:
             if not self.streaming and not self.freeze_data:
                 start = time.clock()
@@ -71,7 +71,7 @@ class HSICBlockTestObject(HSICTestObject):
         #print BTest_NullVar
         Z_score = sqrt(self.num_samples*self.blocksize)*BTest_Statistic / sqrt(BTest_NullVar) 
         #print Z_score
-        pvalue = min(norm.cdf(Z_score),norm.cdf(-Z_score))
+        pvalue = norm.sf(Z_score)
         return pvalue, data_generating_time
     
     

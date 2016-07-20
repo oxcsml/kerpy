@@ -31,7 +31,7 @@ class CorrTestObject(TestObject):
         return SubCorr
     
     
-    def compute_pvalue(self,data_x = None, data_y = None):
+    def compute_pvalue_with_time_tracking(self,data_x = None, data_y = None):
         if data_x is None and data_y is None:
             if not self.streaming and not self.freeze_data:
                 start = time.clock()

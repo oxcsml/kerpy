@@ -21,6 +21,9 @@ class TestExperiment(object):
     def compute_pvalue(self):
         return self.test_object.compute_pvalue()
     
+    def compute_pvalue_with_time_tracking(self):
+        return self.test_object.compute_pvalue_with_time_tracking()
+    
     def perform_test(self, alpha):
         return self.test_object.perform_test(alpha)
     
@@ -48,7 +51,7 @@ class TestExperiment(object):
         for trial in arange(completedTrials,numTrials):
             start=time.clock()
             print "Trial %d" % trial
-            pvalue, data_generating_time = self.compute_pvalue()
+            pvalue, data_generating_time = self.compute_pvalue_with_time_tracking()
             counter += pvalue<alpha
             pvalues.append(pvalue)
             time_passed = time.clock()-start-data_generating_time
