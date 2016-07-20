@@ -69,7 +69,7 @@ data_generator:             If we use simulated data, which function to use to g
                             Default value is None (if only a single test will be run).
                             
 kernelX, kernelY:           The kernel functions to use for X and Y respectively. (Examples are included in kerpy folder) 
-                            E.g. kernelX = GaussianKernel(); alternatively, for a kernel with fixed width: kernelY = GaussianKernel(float(1.5)
+                            E.g. kernelX = GaussianKernel(); alternatively, for a kernel with fixed width: kernelY = GaussianKernel(float(1.5))
 kernelX_use_median,
 kernelY_use_median:         "True" or "False" -- if median heuristic should be used to select the kernel bandwidth. 
 
