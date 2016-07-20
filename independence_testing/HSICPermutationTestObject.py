@@ -35,5 +35,5 @@ class HSICPermutationTestObject(HSICTestObject):
         print 'Permutation data generating time passed: ', data_generating_time
         hsic_statistic, null_samples, _, _, _, _, _ = self.HSICmethod(unbiased=self.unbiased,num_shuffles=self.num_shuffles,
                                                                       data_x = data_x, data_y = data_y)
-        pvalue = ( sum( null_samples > hsic_statistic ) ) / float( self.num_shuffles )
+        pvalue = ( 1 + sum( null_samples > hsic_statistic ) ) / float( 1 + self.num_shuffles )
         return pvalue, data_generating_time
