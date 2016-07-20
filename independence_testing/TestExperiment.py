@@ -65,7 +65,6 @@ class TestExperiment(object):
                     print "...Dumped into file"
                     print "Rejection rate: %d / %d" % (counter, trial+1)
                     print "Average time: ", average_time
-                    
         return 0
         
 '''We are directly calculating the power if under alternative;

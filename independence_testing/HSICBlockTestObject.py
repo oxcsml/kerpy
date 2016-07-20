@@ -71,7 +71,7 @@ class HSICBlockTestObject(HSICTestObject):
         #print BTest_NullVar
         Z_score = sqrt(self.num_samples*self.blocksize)*BTest_Statistic / sqrt(BTest_NullVar) 
         #print Z_score
-        pvalue = 2*min(norm.cdf(Z_score),norm.cdf(-Z_score))
+        pvalue = min(norm.cdf(Z_score),norm.cdf(-Z_score))
         return pvalue, data_generating_time
     
     

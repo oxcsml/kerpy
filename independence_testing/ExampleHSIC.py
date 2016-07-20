@@ -62,26 +62,26 @@ kernelY=GaussianKernel()
 
 '''
 HSICSpectralTestObject/HSICPermutationTestObject:
-=====================================================
+=================================================
 num_samples:                Integer values -- the number of data samples 
 data_generator:             If we use simulated data, which function to use to generate data for repeated tests to investigate power;
                             Examples are given in SimDataGen.py, e.g. data_generator = SimDataGen.LargeScale;
                             Default value is None (if only a single test will be run).
                             
-kernelX, kernelY:          the kernel functions to use for X and Y respectively. (Examples are included in kerpy folder) 
-                           E.g. kernelX = GaussianKernel()
+kernelX, kernelY:           The kernel functions to use for X and Y respectively. (Examples are included in kerpy folder) 
+                            E.g. kernelX = GaussianKernel(); alternatively, for a kernel with fixed width: kernelY = GaussianKernel(float(1.5)
 kernelX_use_median,
-kernelY_use_median:         Takes "True" or "False" -- if median heuristic should be used to select the kernel bandwidth. 
+kernelY_use_median:         "True" or "False" -- if median heuristic should be used to select the kernel bandwidth. 
 
-rff:                        Takes "True" or "False" -- if random Fourier Features should be used.
-num_rfx, num_rfy:           Takes even integers, gives the number of random features for X and Y respectively.
+rff:                        "True" or "False" -- if random Fourier Features should be used.
+num_rfx, num_rfy:           Even integer values -- the number of random features for X and Y respectively.
 
 induce_set:                 "True" or "False" -- if Nystrom method should be used.
-num_inducex, num_inducey:    Takes integers, gives the number of inducing variables for X and Y respectively.
+num_inducex, num_inducey:    Integer values -- the number of inducing variables for X and Y respectively.
 
 num_nullsims:                An integer value -- the number of simulations from the null distribution for spectral approach.
 num_shuffles:                An integer value -- the number of shuffles for permutation approach.
-unbiased:                    "True" or "False" -- if unbiased HSIC test statistics should be used.
+unbiased:                    "True" or "False" -- if unbiased HSIC test statistics is preferred.
 
 
 HSICBlockTestObject: 
