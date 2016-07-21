@@ -1,5 +1,6 @@
 # kerpy
-python code for kernel methods 
+python code framework for kernel methods in hypothesis testing. 
+some code on kernel computation was adapted from https://github.com/karlnapf/kameleon-mcmc 
 
 
 ### independence_testing
