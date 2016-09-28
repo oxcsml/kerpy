@@ -48,6 +48,20 @@ class MaternKernel(Kernel):
             raise NotImplementedError()
         return K
     
+    def rff_generate(self,m,dim=1):
+        self.rff_num=m
+        assert(dim==1)
+        ##currently works only for dim=1
+        ##need to check how student spectral density generalizes to multivariate case
+        assert(self.sigma==1.0)
+        ##the scale parameter should be one
+        if self.nu==0.5 or self.nu==1.5 or self.nu==2.5:
+            df = self.nu*2
+            self.unit_rff_freq=np.random.standard_t(df,size=(m/2,dim))
+            self.rff_freq=self.unit_rff_freq/self.width
+        else:
+            raise NotImplementedError()
+    
     def gradient(self, x, Y):
         assert(len(shape(x))==1)
         assert(len(shape(Y))==2)
@@ -67,4 +81,12 @@ class MaternKernel(Kernel):
 if __name__ == '__main__':
     from tools.UnitTests import UnitTests
     UnitTests.UnitTestDefaultKernel(MaternKernel)
-
+    kernel=MaternKernel(width=2.0)
+    x=np.random.rand(10,1)
+    y=np.random.rand(15,1)
+    K=kernel.kernel(x,y)
+    kernel.rff_generate(50000)
+    phix=kernel.rff_expand(x)
+    phiy=kernel.rff_expand(y)
+    Khat=phix.dot(phiy.T)
+    print np.linalg.norm(K-Khat)
