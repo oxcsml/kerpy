@@ -112,6 +112,22 @@ class Kernel(object):
                 return svc,ypre,1-svc.score(Xtst,ytst)
     
     @abstractmethod
+    def svc_rff(self,X,y,lmbda=1.0,Xtst=None,ytst=None):
+        from sklearn import svm
+        phi=self.rff_expand(X)
+        svc=svm.LinearSVC(C=lmbda,dual=True)
+        svc.fit(phi,y)
+        if Xtst is None:
+            return svc
+        else:
+            phitst=self.rff_expand(Xtst)
+            ypre=svc.predict(phitst)
+            if ytst is None:
+                return svc,ypre
+            else:
+                return svc,ypre,1-svc.score(phitst,ytst)
+    
+    @abstractmethod
     def ridge_regress(self,X,y,lmbda=0.01,Xtst=None,ytst=None):
         K=self.kernel(X)
         n=shape(K)[0]
