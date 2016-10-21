@@ -14,6 +14,9 @@ class BagKernel(Kernel):
         s += "]"
         return s
     
+    def set_kerpar(self,kerpar):
+        self.data_kernel.set_kerpar(kerpar)
+    
     def kernel(self, bagX, bagY=None):
         #GenericTests.check_type(bagX,'bagX',list)
         nx=len(bagX)
