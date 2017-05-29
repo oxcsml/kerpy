@@ -11,7 +11,7 @@ class LinearKernel(Kernel):
         s += "]"
         return s
     
-    def kernel(self, X, Y):
+    def kernel(self, X, Y=None):
         """
         Computes the linear kerpy k(x,y)=x^T y for the given data
         X - samples on right hand side
