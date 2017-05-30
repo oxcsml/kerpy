@@ -135,7 +135,7 @@ class Kernel(object):
         if Xtst is None:
             return aa
         else:
-            ypre=dot(aa,self.kernel(X,Xtst))
+            ypre=dot(aa.T,self.kernel(X,Xtst)).T
             if ytst is None:
                 return aa,ypre
             else:
