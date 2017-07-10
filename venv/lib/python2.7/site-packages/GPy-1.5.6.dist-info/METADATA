@@ -1,0 +1,43 @@
+Metadata-Version: 2.0
+Name: GPy
+Version: 1.5.6
+Summary: The Gaussian Process Toolbox
+Home-page: http://sheffieldml.github.com/GPy/
+Author: GPy Authors: https://github.com/SheffieldML/GPy/graphs/contributors
+Requires-Dist: numpy (>=1.7)
+Requires-Dist: paramz (>=0.6.9)
+Requires-Dist: scipy (>=0.16)
+Requires-Dist: six
+Provides-Extra: docs
+Requires-Dist: sphinx; extra == 'docs'
+Provides-Extra: notebook
+Requires-Dist: ipykernel (>=4.1.0); extra == 'notebook'
+Requires-Dist: ipywidgets (>=4.0.3); extra == 'notebook'
+Requires-Dist: jupyter-client (>=4.0.6); extra == 'notebook'
+Requires-Dist: notebook (>=4.0.5); extra == 'notebook'
+Provides-Extra: optional
+Requires-Dist: ipython (>=4.0.0); extra == 'optional'
+Requires-Dist: mpi4py; extra == 'optional'
+Provides-Extra: plotting
+Requires-Dist: matplotlib (>=1.3); extra == 'plotting'
+Requires-Dist: plotly (>=1.8.6); extra == 'plotting'
+
+Author-email: gpy.authors@gmail.com
+License: BSD 3-clause
+Download-URL: https://github.com/SheffieldML/GPy/
+Description: 
+        
+        Please refer to the github homepage for detailed instructions on installation and usage.
+        
+        
+Keywords: machine-learning gaussian-processes kernels
+Platform: UNKNOWN
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Natural Language :: English
+Classifier: Operating System :: MacOS :: MacOS X
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3.3
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Programming Language :: Python :: 3.5
