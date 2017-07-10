@@ -5,22 +5,26 @@ import numpy as np
 from abc import abstractmethod
 from kerpy.Kernel import Kernel
 import time
-from scipy.linalg import sqrtm
-from numpy.linalg import inv,eigh,svd
+from scipy.linalg import sqrtm,inv
+from numpy.linalg import eigh,svd
 
 
 
 class HSICTestObject(TestObject):
-    def __init__(self, num_samples, data_generator=None, kernelX=None, kernelY=None, kernelX_use_median=False,kernelY_use_median=False,
-                  rff=False, num_rfx=None, num_rfy=None, induce_set=False, num_inducex = None, num_inducey = None,
+    def __init__(self, num_samples, data_generator=None, kernelX=None, kernelY=None, kernelZ = None,
+                 kernelX_use_median=False,kernelY_use_median=False,kernelZ_use_median=False,
+                  rff=False, num_rfx=None, num_rfy=None, induce_set=False, 
+                  num_inducex = None, num_inducey = None,
                   streaming=False, freeze_data=False):
         TestObject.__init__(self,self.__class__.__name__,streaming=streaming, freeze_data=freeze_data)
         self.num_samples = num_samples #We have same number of samples from X and Y in independence testing
         self.data_generator = data_generator
         self.kernelX = kernelX
         self.kernelY = kernelY
+        self.kernelZ = kernelZ
         self.kernelX_use_median = kernelX_use_median #indicate if median heuristic for Gaussian Kernel should be used
         self.kernelY_use_median = kernelY_use_median
+        self.kernelZ_use_median = kernelZ_use_median
         self.rff = rff
         self.num_rfx = num_rfx
         self.num_rfy = num_rfy
@@ -67,7 +71,7 @@ class HSICTestObject(TestObject):
     
     # generalise distance correlation ---- a kernel interpretation
     @staticmethod
-    def dCor_HSIC_statistic(Kx,Ky,unbiased=True):
+    def dCor_HSIC_statistic(Kx,Ky,unbiased=False):
         if unbiased:
             first_term = HSICTestObject.HSIC_U_statistic(Kx,Ky)
             second_term = HSICTestObject.HSIC_U_statistic(Kx,Kx)*HSICTestObject.HSIC_U_statistic(Ky,Ky)
@@ -77,6 +81,15 @@ class HSICTestObject(TestObject):
             second_term = HSICTestObject.HSIC_V_statistic(Kx,Kx)*HSICTestObject.HSIC_V_statistic(Ky,Ky)
             dCor = first_term/float(sqrt(second_term))
         return dCor
+    
+    
+    # approximated dCor using rff/Nystrom 
+    @staticmethod
+    def dCor_HSIC_statistic_rff(phix,phiy):
+        first_term = HSICTestObject.HSIC_V_statistic_rff(phix,phiy)
+        second_term = HSICTestObject.HSIC_V_statistic_rff(phix,phix)*HSICTestObject.HSIC_V_statistic_rff(phiy,phiy)
+        approx_dCor = first_term/float(sqrt(second_term))
+        return approx_dCor
     
     
     def SubdCor_HSIC_statistic(self,data_x=None,data_y=None,unbiased=True):
@@ -212,6 +225,26 @@ class HSICTestObject(TestObject):
         return Kx, Ky
     
     
+    
+    @abstractmethod
+    def compute_kernel_matrix_on_data_CI(self,data_x,data_y,data_z):
+        if self.kernelX_use_median:
+            sigmax = self.kernelX.get_sigma_median_heuristic(data_x)
+            self.kernelX.set_width(float(sigmax))
+        if self.kernelY_use_median:
+            sigmay = self.kernelY.get_sigma_median_heuristic(data_y)
+            self.kernelY.set_width(float(sigmay))
+        if self.kernelZ_use_median:
+            sigmaz = self.kernelZ.get_sigma_median_heuristic(data_z)
+            self.kernelZ.set_width(float(sigmaz))
+        Kx=self.kernelX.kernel(data_x)
+        Ky=self.kernelY.kernel(data_y)
+        Kz=self.kernelZ.kernel(data_z)
+        return Kx, Ky,Kz
+    
+    
+    
+    
     def unbiased_HSnorm_estimate_of_centred_operator(self,Kx,Ky):
         '''returns an unbiased estimate of 2*Sum_p Sum_q lambda^2_p theta^2_q
         where lambda and theta are the eigenvalues of the centered matrices for X and Y respectively'''
@@ -241,9 +274,15 @@ class HSICTestObject(TestObject):
         The current data generating methods we use 
         generate X and Y at the same time. '''
         size_induced_set = max(self.num_inducex,self.num_inducey)
-        self.data_z, self.data_w = self.data_generator(size_induced_set)
-        self.data_z[[range(self.num_inducex)],:]
-        self.data_w[[range(self.num_inducey)],:]
+        #print "size_induce_set", size_induced_set
+        if self.data_generator is None:
+            subsample_idx = np.random.randint(self.num_samples, size=size_induced_set)
+            self.data_z = data_x[subsample_idx,:]
+            self.data_w = data_y[subsample_idx,:]
+        else:
+            self.data_z, self.data_w = self.data_generator(size_induced_set)
+            self.data_z[[range(self.num_inducex)],:]
+            self.data_w[[range(self.num_inducey)],:]
         print 'Induce Set'
         if self.kernelX_use_median:
             sigmax = self.kernelX.get_sigma_median_heuristic(data_x)
@@ -253,11 +292,13 @@ class HSICTestObject(TestObject):
             self.kernelY.set_width(float(sigmay))
         Kxz = self.kernelX.kernel(data_x,self.data_z)
         Kzz = self.kernelX.kernel(self.data_z)
-        R = inv(sqrtm(Kzz))
+        #R = inv(sqrtm(Kzz))
+        R = inv(sqrtm(Kzz + np.eye(np.shape(Kzz)[0])*10**(-6)))
         phix = Kxz.dot(R)
         Kyw = self.kernelY.kernel(data_y,self.data_w)
         Kww = self.kernelY.kernel(self.data_w)
-        S = inv(sqrtm(Kww))
+        #S = inv(sqrtm(Kww))
+        S = inv(sqrtm(Kww + np.eye(np.shape(Kww)[0])*10**(-6)))
         phiy = Kyw.dot(S)
         return phix, phiy
     

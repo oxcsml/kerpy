@@ -1,4 +1,7 @@
-'''Directly copied from MMD case'''
+import os,sys 
+BASE_DIR = os.path.join( os.path.dirname( __file__ ), '..' )
+sys.path.append(BASE_DIR)
+
 from numpy import sqrt
 import os
 from pickle import load

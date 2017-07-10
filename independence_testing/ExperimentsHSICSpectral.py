@@ -1,11 +1,14 @@
 '''
     adding relevant folder to your pythonpath
-    '''
+'''
 import os, sys
 BASE_DIR = os.path.join( os.path.dirname( __file__ ), '..' )
+#print BASE_DIR
 sys.path.append(BASE_DIR)
+#print sys.path.append(BASE_DIR)
 
 from kerpy.GaussianKernel import GaussianKernel
+from kerpy.BrownianKernel import BrownianKernel
 from HSICTestObject import HSICTestObject
 from HSICSpectralTestObject import HSICSpectralTestObject
 from TestExperiment import TestExperiment
@@ -16,10 +19,10 @@ from tools.ProcessingObject import ProcessingObject
 # the above says that 500 samples; null hypothesis; rff True; 50 random Fourier features for X and Y.
 
 
-#data_generating_function = SimDataGen.VaryDimension
-#data_generating_function_null = SimDataGen.turn_into_null(SimDataGen.VaryDimension)
-data_generating_function = SimDataGen.LargeScale
-data_generating_function_null = SimDataGen.turn_into_null(SimDataGen.LargeScale)
+data_generating_function = SimDataGen.VaryDimension
+data_generating_function_null = SimDataGen.turn_into_null(SimDataGen.VaryDimension)
+#data_generating_function = SimDataGen.LargeScale
+#data_generating_function_null = SimDataGen.turn_into_null(SimDataGen.LargeScale)
 args = ProcessingObject.parse_arguments()
 
 '''unpack the arguments needed:''' 
@@ -37,8 +40,12 @@ num_inducey = args.num_inducey
 
 
 # This will only be a temporary set up for the kernels when we use median heuristics. 
-kernelX = GaussianKernel(1.)
-kernelY = GaussianKernel(1.)
+#kernelX = GaussianKernel(1.)
+#kernelY = GaussianKernel(1.)
+
+# Brownian kernel with H = 0.5 equivalently alpha = 1.0
+kernelX = BrownianKernel(1.)
+kernelY = BrownianKernel(1.) 
 
 if hypothesis=="alter":
     data_generator=lambda num_samples: data_generating_function(num_samples,dimension=dimX)
@@ -56,13 +63,13 @@ test_object=HSICSpectralTestObject(num_samples, data_generator, kernelX, kernelY
 
 # file name of the results
 if rff:
-    name = os.path.basename(__file__).rstrip('.py')+'LS'+'_'+hypothesis+'_rff_'+str(num_rfx)+\
-    str(num_rfy)+'_n_'+str(num_samples)+'_d_'+str(dimX)
+    name = os.path.basename(__file__).rstrip('.py')+'Bsine'+'_'+hypothesis+'_rff_'+str(num_rfx)+\
+    str(num_rfy)+'_d_'+str(dimX)+'_n_'+str(num_samples)
 elif induce_set:
-    name = os.path.basename(__file__).rstrip('.py')+'LS'+'_'+hypothesis+'_induce_'+str(num_inducex)+\
-    str(num_inducey)+'_n_'+str(num_samples)+'_d_'+str(dimX)
+    name = os.path.basename(__file__).rstrip('.py')+'Bsine'+'_'+hypothesis+'_induce_'+str(num_inducex)+\
+    str(num_inducey)+'_d_'+str(dimX)+'_n_'+str(num_samples)
 else:
-    name = os.path.basename(__file__).rstrip('.py')+'LS'+'_'+hypothesis+'_n_'+str(num_samples)+'_d_'+str(dimX)
+    name = os.path.basename(__file__).rstrip('.py')+'Bsine'+'_'+hypothesis+'_d_'+str(dimX)+'_n_'+str(num_samples)
 
 param={'name': name,\
        'dim': dimX,\

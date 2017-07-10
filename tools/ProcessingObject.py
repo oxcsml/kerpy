@@ -2,6 +2,10 @@ import argparse
 '''
 Class containing some helper functions, i.e., argument parsing
 '''
+
+from kerpy.LinearKernel import LinearKernel
+from kerpy.GaussianKernel import GaussianKernel
+
 class ProcessingObject(object):
     def __init__(self):
         '''
@@ -33,12 +37,58 @@ class ProcessingObject(object):
         parser.add_argument("--dimX", type=int,\
                             help="dimensionality of the data X",
                             default=3)
+        parser.add_argument("--dimZ", type=int,\
+                            help="dimensionality of the data Z (i.e. the conditioning variable)",
+                            default=7)
+        parser.add_argument("--kernelX", const = LinearKernel(), default = GaussianKernel(1.), \
+                            action='store_const', \
+                            help="Linear kernel (Default GaussianKernel(1.))?")
+        parser.add_argument("--kernelY", const = LinearKernel(), default = GaussianKernel(1.), \
+                            action='store_const', \
+                            help="Linear kernel (Default GaussianKernel(1.))?")
         parser.add_argument("--kernelX_use_median", action="store_true",\
                             help="should median heuristic be used for X?",
-                            default=False)
+                           default=False)
         parser.add_argument("--kernelY_use_median", action="store_true",\
                             help="should median heuristic be used for Y?",
                             default=False)
+        
+        parser.add_argument("--kernelRxz", const = GaussianKernel(1.), default = LinearKernel(), \
+                            action='store_const', \
+                            help="Gaussian kernel(1.) (Default LinearKernel)?")
+        parser.add_argument("--kernelRyz", const = GaussianKernel(1.), default = LinearKernel(), \
+                            action='store_const', \
+                            help="Linear kernel (Default GaussianKernel(1.))?")
+        parser.add_argument("--kernelRxz_use_median", action="store_true",\
+                            help="should median heuristic be used for residuals Rxz?",
+                            default=False)
+        parser.add_argument("--kernelRyz_use_median", action="store_true",\
+                            help="should median heuristic be used for residuals Ryz?",
+                            default=False)
+        
+        parser.add_argument("--RESIT_type", action="store_true",\
+                            help="Conditional Testing using RESIT?",\
+                            default=False)
+        parser.add_argument("--optimise_lambda_only", action="store_false",\
+                            help="Optimise lambdas only?",\
+                            default=True)
+        parser.add_argument("--grid_search", action="store_false",\
+                            help="Optimise hyperparameters through grid search?",\
+                            default=True)
+        parser.add_argument("--GD_optimise", action="store_true",\
+                            help="Optimise hyperparameters through gradient descent?",\
+                            default=False)
+        
+        parser.add_argument("--results_filename",type=str,\
+                            help = "name of the file to save results?",\
+                            default = "testing")
+        parser.add_argument("--figure_filename",type=str,\
+                            help = "name of the file to save the causal graph?",\
+                            default = "testing")
+        parser.add_argument("--data_filename",type=str,\
+                            help = "name of the file to load data from?",\
+                            default = "testing")
+        
         #parser.add_argument("--dimY", type=int,\
         #                    help="dimensionality of the data Y",
         #                    default=3)
