@@ -289,14 +289,14 @@ class TwoStepCondTestObject(HSICTestObject):
     
     def compute_lambda_sigmasq_through_grid_search(self, matrix_results_x, matrix_results_y, lambda_vals, sigmasq_vals):
         # 0: K_tst_tr; 1: K_tr_tr; 2: K_tst_tst; 3: D_tst_tr; 4: D_tr_tr 
-        print "parameter opt via grid search"
+        #print "parameter opt via grid search"
         num_of_lambdas = np.shape(lambda_vals)[0]
         num_of_sigmasq = np.shape(sigmasq_vals)[0]
         total_cverr_matrix_x = np.reshape(np.zeros(num_of_sigmasq*num_of_lambdas), (num_of_sigmasq,num_of_lambdas))
         total_cverr_matrix_y = np.reshape(np.zeros(num_of_sigmasq*num_of_lambdas), (num_of_sigmasq,num_of_lambdas))
         for ss in range(num_of_sigmasq):
             for ll in range(num_of_lambdas):
-                print "Bandwidth numb; Lambdaval numb:", (ss,ll)
+                #print "Bandwidth numb; Lambdaval numb:", (ss,ll)
                 total_cverr_matrix_x[ss,ll] = self.compute_totalcverr(matrix_results_x, lambda_vals[ll], sigmasq_vals[ss])
                 total_cverr_matrix_y[ss,ll] = self.compute_totalcverr(matrix_results_y, lambda_vals[ll], sigmasq_vals[ss])
         x_sigmasq_idx, x_lambda_idx = np.where(total_cverr_matrix_x == np.min(total_cverr_matrix_x))
@@ -321,7 +321,7 @@ class TwoStepCondTestObject(HSICTestObject):
     
     def compute_lambda_through_grid_search(self, matrix_results_x, lambda_vals, sigmasq_xz):
         # 0: K_tst_tr; 1: K_tr_tr; 2: K_tst_tst; 3: D_tst_tr; 4: D_tr_tr 
-        print "lambda parameter opt via grid search"
+        #print "lambda parameter opt via grid search"
         num_of_lambdas = np.shape(lambda_vals)[0]
         total_cverr_matrix_x = np.reshape(np.zeros(num_of_lambdas), (num_of_lambdas,1))
         for ll in range(num_of_lambdas):
@@ -350,29 +350,29 @@ class TwoStepCondTestObject(HSICTestObject):
                         sigmaz = self.kernelZ.get_sigma_median_heuristic(data_z)
                         self.kernelZ.set_width(float(sigmaz))
                         self.sigmasq_xz = self.sigmasq_yz = sigmaz**2
-                    print "Gradient Descent Optimisation in log space, fixed step for lambda X"
+                    #print "Gradient Descent Optimisation in log space, fixed step for lambda X"
                     log_lambda_X, log_lambda_pathx, X_CVerror = self.compute_GD_lambda_for_TotalCVerr_with_fix_step_logspace(matrix_results_x,
                                                                                 self.initial_lambda_x, self.sigmasq_xz)
                     self.lambda_X = exp(log_lambda_X)
-                    print X_CVerror
-                    print "Gradient Descent Optimisation in log space, fixed step for lambda Y"
+                    #print X_CVerror
+                    #print "Gradient Descent Optimisation in log space, fixed step for lambda Y"
                     log_lambda_Y, log_lambda_pathy, Y_CVerror = self.compute_GD_lambda_for_TotalCVerr_with_fix_step_logspace(matrix_results_y,
                                                                                 self.initial_lambda_y, self.sigmasq_yz)
                     self.lambda_Y = exp(log_lambda_Y)
-                    print Y_CVerror
+                    #print Y_CVerror
                 else:
-                    print "Gradient Descent Optimisation in log space, fixed step for lambda X and sigma XZ"
+                    #print "Gradient Descent Optimisation in log space, fixed step for lambda X and sigma XZ"
                     log_lambda_X, _, log_sigmasq_xz, _, X_CVerror = self.compute_GD_lambda_sigmasq_for_TotalCVerr_with_fix_step_logspace(matrix_results_x,
                                                                 initial_lambda=self.initial_lambda_x, initial_sigmasq=self.initial_sigmasq)
                     self.lambda_X = exp(log_lambda_X)
                     self.sigmasq_xz = exp(log_sigmasq_xz)
-                    print X_CVerror
-                    print "Gradient Descent Optimisation in log space, fixed step for lambda Y and sigma YZ"
+                    #print X_CVerror
+                    #print "Gradient Descent Optimisation in log space, fixed step for lambda Y and sigma YZ"
                     log_lambda_Y, _, log_sigmasq_yz, _, Y_CVerror = self.compute_GD_lambda_sigmasq_for_TotalCVerr_with_fix_step_logspace(matrix_results_y,
                                                                 initial_lambda=self.initial_lambda_y, initial_sigmasq=self.initial_sigmasq)
                     self.lambda_Y = exp(log_lambda_Y)
                     self.sigmasq_yz = exp(log_sigmasq_yz)
-                    print Y_CVerror
+                    #print Y_CVerror
                 
             elif self.grid_search:
                 if self.optimise_lambda_only:
@@ -380,17 +380,17 @@ class TwoStepCondTestObject(HSICTestObject):
                         sigmaz = self.kernelZ.get_sigma_median_heuristic(data_z)
                         self.kernelZ.set_width(float(sigmaz))
                         self.sigmasq_xz = self.sigmasq_yz = sigmaz**2
-                    print "Grid Search Optimisation in log space for lambda X"
+                    #print "Grid Search Optimisation in log space for lambda X"
                     self.lambda_X, X_CVerror = self.compute_lambda_through_grid_search(matrix_results_x, self.lambda_val,self.sigmasq_xz)
-                    print X_CVerror
-                    print "Grid Search Optimisation in log space for lambda Y"
+                    #print X_CVerror
+                    #print "Grid Search Optimisation in log space for lambda Y"
                     self.lambda_Y, Y_CVerror = self.compute_lambda_through_grid_search(matrix_results_y, self.lambda_val,self.sigmasq_yz)
-                    print Y_CVerror
+                    #print Y_CVerror
                 else:
                     self.sigmasq_xz, self.lambda_X, self.sigmasq_yz, self.lambda_Y, X_CVerror, Y_CVerror = \
                     self.compute_lambda_sigmasq_through_grid_search(matrix_results_x, matrix_results_y, self.lambda_val, self.sigmasq_vals)
-                    print X_CVerror
-                    print Y_CVerror
+                    #print X_CVerror
+                    #print Y_CVerror
             else:
                 raise NotImplementedError
                 
@@ -410,8 +410,8 @@ class TwoStepCondTestObject(HSICTestObject):
             X_CVerror = 0
             Y_CVerror = 0
         
-        print "lambda value for (X,Y)", (self.lambda_X,self.lambda_Y)
-        print "sigma squared for (XZ, YZ)", (self.sigmasq_xz, self.sigmasq_yz)
+        #print "lambda value for (X,Y)", (self.lambda_X,self.lambda_Y)
+        #print "sigma squared for (XZ, YZ)", (self.sigmasq_xz, self.sigmasq_yz)
         test_size = self.num_samples
         if not self.RESIT_type:
             test_Kx, test_Ky, _  = self.compute_kernel_matrix_on_data_CI(data_x, data_y, data_z)
@@ -423,7 +423,7 @@ class TwoStepCondTestObject(HSICTestObject):
             K_epsilon_x = weight_xz.dot(test_Kx.dot(weight_xz))
             K_epsilon_y = weight_yz.dot(test_Ky.dot(weight_yz))
         else:
-            print "RESIT Computation"
+            #print "RESIT Computation"
             if self.kernelZ_use_median:
                 sigmaz = self.kernelZ.get_sigma_median_heuristic(data_z)
                 self.kernelZ.set_width(float(sigmaz))
@@ -442,7 +442,7 @@ class TwoStepCondTestObject(HSICTestObject):
             K_epsilon_y = self.kernelRyz.kernel(residual_yz)
         
         hsic_statistic = self.HSIC_V_statistic(K_epsilon_x, K_epsilon_y)
-        print "HSIC Statistics", hsic_statistic
+        #print "HSIC Statistics", hsic_statistic
         return hsic_statistic, K_epsilon_x, K_epsilon_y, X_CVerror, Y_CVerror
     
     
@@ -463,13 +463,13 @@ class TwoStepCondTestObject(HSICTestObject):
                 data_x = self.data_x
                 data_y = self.data_y
                 data_z = self.data_z
-                print "dimension of data:", np.shape(data_x)
+                #print "dimension of data:", np.shape(data_x)
             else:
                 data_generating_time = 0.
             
         else:
             data_generating_time = 0.
-        print 'Data generating time passed: ', data_generating_time
+        #print 'Data generating time passed: ', data_generating_time
         hsic_statistic, K_epsilon_x, K_epsilon_y, X_CVerror, Y_CVerror = self.compute_test_statistics_and_others(data_x, data_y, data_z)
         if self.num_shuffles != 0:
             ny = np.shape(K_epsilon_y)[0]
@@ -479,11 +479,11 @@ class TwoStepCondTestObject(HSICTestObject):
                 Kp = K_epsilon_y[pp,:][:,pp]
                 null_samples[jj] = self.HSIC_V_statistic(K_epsilon_x, Kp)
             pvalue = ( sum( null_samples > hsic_statistic ) + 1) / float( self.num_shuffles + 1)
-            print "P-value:", pvalue
+            #print "P-value:", pvalue
         else:
             pvalue = None 
             null_samples = 0  
-            print "Not interested in P-value"
+            #print "Not interested in P-value"
         return null_samples, hsic_statistic, pvalue, X_CVerror, Y_CVerror,data_generating_time
     
     

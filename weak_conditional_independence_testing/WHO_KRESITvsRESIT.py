@@ -55,7 +55,7 @@ pvals_RESIT = np.reshape(np.zeros(num_trials),(num_trials,1))
 
 # computing Type I error (Null model is true)
 for jj in xrange(num_trials):
-        print "number of trial:", jj
+        #print "number of trial:", jj
         
         data_x = np.reshape(np.zeros(num_samples),(num_samples,1))
         noise_x = np.reshape(normal(0,1,np.shape(data_z)[0]),(np.shape(data_z)[0],1))
@@ -69,7 +69,7 @@ for jj in xrange(num_trials):
         kernelX = GaussianKernel(1.)
         kernelY = GaussianKernel(1.)
         kernelZ = GaussianKernel(1.)
-        mytestobj = TwoStepCondTestObject(num_samples, None, 
+        mytestobject = TwoStepCondTestObject(num_samples, None, 
                                          kernelX, kernelY, kernelZ, 
                                          kernelX_use_median=True,
                                          kernelY_use_median=True, 
