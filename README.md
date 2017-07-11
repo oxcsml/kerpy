@@ -22,7 +22,5 @@ Code for feature-to-feature regression for a two-step conditional independence t
 
 Q. Zhang, S. Filippi, S. Flaxman, and D. Sejdinovic, __Feature-to-Feature Regression for a Two-Step Conditional Independence Test__, UAI, 2017.
 
-Load the virtual environment before starting the session: 
-$ source venv/bin/activate
 
 To reproduce results from the paper, see WHO_KRESITvsRESIT.py, SyntheticDim_KRESITvsRESIT.py, PCalg_twostep_flags.py (the nodes names correspond to the varibales in Synthetic_DAGexample.csv file, to run it for Boston Housing Data (BH_prewhiten.csv) or Ozone Data (Ozone_prewhiten.csv) simply change the label names in the script.)
