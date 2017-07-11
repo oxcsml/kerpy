@@ -8,6 +8,30 @@ high-dimensional directed acyclic graphs with the pc-algorithm. In The
 Journal of Machine Learning Research, Vol. 8, pp. 613-636, 2007.
 License: BSD
 
+Example run in terminal:
+1) KRESIT:
+$ python PCalg_twostep_flags.py 400 --dimZ 4 --data_filename "Synthetic_DAGexample" 
+--kernelX_use_median --kernelY_use_median 
+--results_filename "test_run_KRESIT" --figure_filename "test_graph_KRESIT" 
+
+(It takes the first 400 samples and the first 4 dimensions from the Synthetic_DAGexample.csv
+and run KRESIT with Gaussian kernel median Heuristic on the variables X and Y. The kernel on Z
+is set by default to be Gaussian median Heuristic. The regularisation parameters is 
+set by default to use grid search. The resulting CPDAG is saved "test_graph_KRESIT.pdf".)
+
+2) RESIT:
+$ python PCalg_twostep_flags.py 400 --dimZ 4 --data_filename "Synthetic_DAGexample"
+--kernelX --kernelY 
+--kernelRxz --kernelRyz
+--kernelRxz_use_median --kernelRyz_use_median 
+--RESIT_type
+--result_filename "test_run_RESIT" --figure_filename "test_graph_RESIT"
+
+(It takes the first 400 samples and the first 4 dimensions from the Synthetic_DAGexample.csv
+and run RESIT. The kernels on X and Y are set to be linear. The kernels on the residuals Rxz and 
+Ryz are Gaussian with median Heuristic bandwidth.The regularisation parameters is 
+set by default to use grid search. The resulting CPDAG is saved "test_graph_RESIT.pdf".)
+
 '''
 from __future__ import print_function
 
