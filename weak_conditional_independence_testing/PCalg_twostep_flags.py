@@ -1,14 +1,13 @@
-
-
 '''
+Modified PC algorithm code (original code: https://github.com/keiichishima/pcalg) 
+by incorporating KRESIT as the conditional independence test.
 
-A graph generator based on the PC algorithm [Kalisch2007].
+Original code: A graph generator based on the PC algorithm [Kalisch2007].
 [Kalisch2007] Markus Kalisch and Peter Bhlmann. Estimating
 high-dimensional directed acyclic graphs with the pc-algorithm. In The
 Journal of Machine Learning Research, Vol. 8, pp. 613-636, 2007.
 License: BSD
 
-Incorporating KREIST as the conditional independence test
 '''
 from __future__ import print_function
 
