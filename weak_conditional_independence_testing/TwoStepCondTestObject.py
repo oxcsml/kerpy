@@ -12,7 +12,6 @@ in one framework with the following parameter optimisation options:
 
 Such parameter optimisation is only for the regression part.
 
-@author: qinyi
 '''
 
 import os, sys

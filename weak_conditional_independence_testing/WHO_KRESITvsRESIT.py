@@ -1,6 +1,9 @@
 '''
-Comparing RESIT and KRESIT on WHO data 
-@author: qinyi
+Comparing RESIT and KRESIT on WHO data.
+To run the script in terminal:
+$ python WHO_KRESITvsRESIT.py 
+The p-values will be printed and a data plot will be shown.
+
 '''
 
 import os, sys

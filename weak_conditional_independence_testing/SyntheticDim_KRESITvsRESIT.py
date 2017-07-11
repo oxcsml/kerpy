@@ -11,7 +11,29 @@ and saved in .mat files in the folders.
 Here, the script reads in the .mat files one by one 
 Run KRESIT/RESIT and save the pvalues in a .csv file 
 
-@author: qinyi
+Example run in terminal:
+1) KRESIT:
+$ python SyntheticDim_KRESITvsRESIT.py 40 --dimZ 5 
+--kernelX_use_median --kernelY_use_median 
+
+(It takes .mat files from the Null_num_40_dimZ_5 folder in the Null_model folder
+and run KRESIT with Gaussian kernel median Heuristic on the variables X and Y. The kernel on Z
+is set by default to be Gaussian median Heuristic. The regularisation parameters is 
+set by default to use grid search. )
+
+2) RESIT:
+$ python SyntheticDim_KRESITvsRESIT.py 40 --dimZ 5 
+--kernelX --kernelY 
+--kernelRxz --kernelRyz
+--kernelRxz_use_median --kernelRyz_use_median 
+--RESIT_type
+
+(It takes .mat files from the Null_num_40_dimZ_5 folder in the Null_model folder
+and run RESIT. The kernels on X and Y are set to be linear. The kernels on the residuals Rxz and 
+Ryz are Gaussian with median Heuristic bandwidth.The regularisation parameters is 
+set by default to use grid search. The resulting CPDAG is saved "test_graph_RESIT.pdf".)
+
+
 '''
 import os, sys
 BASE_DIR = os.path.join( os.path.dirname( __file__ ), '..' )
