@@ -458,7 +458,7 @@ class TwoStepCondTestObject(HSICTestObject):
         if data_x is None and data_y is None and data_z is None: 
             if not self.streaming and not self.freeze_data:
                 start = time.clock()
-                self.generate_data(isConditionalTesting=self.isConditionalTesting)
+                self.generate_data(isConditionalTesting=True)
                 data_generating_time = time.clock()-start
                 data_x = self.data_x
                 data_y = self.data_y
@@ -488,7 +488,7 @@ class TwoStepCondTestObject(HSICTestObject):
     
     
     
-    def compute_pvalue(self, data_x = None, data_y = None, data_z = None):
+    def compute_pvalue_with_time_tracking(self, data_x = None, data_y = None, data_z = None):
         if self.lambda_X is not None and self.lambda_Y is not None:
             self.GD_optimise = False
             self.grid_search = False

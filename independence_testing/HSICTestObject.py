@@ -36,9 +36,14 @@ class HSICTestObject(TestObject):
         else:
             self.HSICmethod = self.HSIC_with_shuffles
     
-    def generate_data(self):
-        self.data_x, self.data_y = self.data_generator(self.num_samples)
-        return self.data_x, self.data_y
+    def generate_data(self,isConditionalTesting = False):
+        if not isConditionalTesting:
+            self.data_x, self.data_y = self.data_generator(self.num_samples)
+            return self.data_x, self.data_y
+        else: 
+            self.data_x, self.data_y, self.data_z = self.data_generator(self.num_samples)
+            return self.data_x, self.data_y, self.data_z
+        ''' for our SimDataGen examples, one argument suffice'''
     
     
     @staticmethod
