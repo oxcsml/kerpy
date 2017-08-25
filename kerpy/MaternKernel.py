@@ -89,4 +89,4 @@ if __name__ == '__main__':
     phix=kernel.rff_expand(x)
     phiy=kernel.rff_expand(y)
     Khat=phix.dot(phiy.T)
-    print np.linalg.norm(K-Khat)
+    print(np.linalg.norm(K-Khat))
