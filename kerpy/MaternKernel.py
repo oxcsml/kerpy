@@ -57,7 +57,7 @@ class MaternKernel(Kernel):
         ##the scale parameter should be one
         if self.nu==0.5 or self.nu==1.5 or self.nu==2.5:
             df = self.nu*2
-            self.unit_rff_freq=np.random.standard_t(df,size=(m/2,dim))
+            self.unit_rff_freq=np.random.standard_t(df,size=(int(m/2),dim))
             self.rff_freq=self.unit_rff_freq/self.width
         else:
             raise NotImplementedError()

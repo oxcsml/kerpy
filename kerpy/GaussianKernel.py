@@ -70,7 +70,7 @@ class GaussianKernel(Kernel):
     
     def rff_generate(self,m,dim=1):
         self.rff_num=m
-        self.unit_rff_freq=randn(m/2,dim)
+        self.unit_rff_freq=randn(int(m/2),dim)
         self.rff_freq=self.unit_rff_freq/self.width
     
     @staticmethod
