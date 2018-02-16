@@ -2,6 +2,8 @@
 python code framework for kernel methods in hypothesis testing. 
 some code on kernel computation was adapted from https://github.com/karlnapf/kameleon-mcmc 
 
+To setup run in terminal:
+``python setup.py develop``
 
 
 ### independence_testing
