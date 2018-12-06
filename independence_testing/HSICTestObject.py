@@ -288,7 +288,7 @@ class HSICTestObject(TestObject):
             self.data_z, self.data_w = self.data_generator(size_induced_set)
             self.data_z[[range(self.num_inducex)],:]
             self.data_w[[range(self.num_inducey)],:]
-        print 'Induce Set'
+        #print 'Induce Set'
         if self.kernelX_use_median:
             sigmax = self.kernelX.get_sigma_median_heuristic(data_x)
             self.kernelX.set_width(float(sigmax))
