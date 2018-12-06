@@ -87,12 +87,12 @@ class TwoStepCondTestObject(HSICTestObject):
         if self.kernelY_use_median:
             sigmay = self.kernelY.get_sigma_median_heuristic(train_y)
             self.kernelY.set_width(float(sigmay))
-        kf = KFold(self.num_samples, n_folds=self.K_folds) 
+        kf = KFold( n_splits=self.K_folds)
         matrix_results = [[[None] for _ in range(self.K_folds)]for _ in range(8)] 
         # xx=[[None]*10]*6 will give the same id to xx[0][0] and xx[1][0] etc. as 
         # this command simply copied [None] many times. But the above gives different ids.
         count = 0
-        for train_index, test_index in kf: 
+        for train_index, test_index in kf.split(np.ones((self.num_samples,1))):
             X_tr, X_tst = train_x[train_index], train_x[test_index]
             Y_tr, Y_tst = train_y[train_index], train_y[test_index]
             Z_tr, Z_tst = train_z[train_index], train_z[test_index]
