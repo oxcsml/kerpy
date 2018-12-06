@@ -1,6 +1,6 @@
 from numpy import shape, fill_diagonal, zeros, mean, sqrt,identity,dot,diag
 from numpy.random import permutation, randn
-from TestObject import TestObject
+from independence_testing.TestObject import TestObject
 import numpy as np
 from abc import abstractmethod
 from kerpy.Kernel import Kernel
