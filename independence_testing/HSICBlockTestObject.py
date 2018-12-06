@@ -36,7 +36,7 @@ class HSICBlockTestObject(HSICTestObject):
         if self.kernelY_use_median:
             sigmay = self.kernelY.get_sigma_median_heuristic(data_y)
             self.kernelY.set_width(float(sigmay))
-        num_blocks = ( self.num_samples ) / self.blocksize
+        num_blocks = int(( self.num_samples ) // self.blocksize)
         block_statistics = zeros(num_blocks)
         null_samples = zeros(num_blocks)
         null_varx = zeros(num_blocks)
