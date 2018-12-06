@@ -24,7 +24,7 @@ from kerpy.Kernel import Kernel
 from kerpy.LinearKernel import LinearKernel
 from kerpy.GaussianKernel import GaussianKernel
 from scipy.spatial.distance import squareform, pdist, cdist
-from sklearn.cross_validation import KFold
+from sklearn.model_selection import KFold
 from scipy.linalg import solve
 
 
